@@ -1,0 +1,11 @@
+변수명,변수설명,변수타입
+ID,샘플 아이디,int64
+species,펭귄의 종을 나타내는 문자열,object
+culmen_length_mm,펭귄 옆모습 기준 부리의 가로 길이,float64
+culmen_depth_mm,펭귄 옆모습 기준 부리의 세로 길이,float64
+flipper_legnth_mm,펭귄의 팔(날개) 길이,float64
+body_mass_g,펭귄의 몸무게,int64
+island,샘플들이 수집된 palmer station 근처 섬 이름,object
+sex,성별,object
+Delta 15 N (o/oo),토양에 따라 변화하는 안정 동위원소 15N:14N의 비율,float64
+Delta 13 C (o/oo),먹이에 따라 변화하는 안정 동위원소 13C:12C의 비율,float64

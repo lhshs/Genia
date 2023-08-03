@@ -1,0 +1,22 @@
+변수명,변수설명,변수타입
+CLIENTNUM,고객 고유 식별자,int
+Attrition_Flag,고객 이탈 여부,Bool
+Customer_Age,고객 나이,int
+Gender,성별,object
+Dependent_count,부양 가족 수,int
+Education_Level,고객 학업 수준,object
+Marital_Status,고객 결혼 여부,object
+Income_Category,고객 소득 범주,object
+Card_Category,고객이 보유한 카드 유형,object
+Months_on_book,예약 개월수,int
+Total_Relationship_Count,신용카드 제공업체 관계 수,int
+Months_Inactive_12_mon,지난 12개월 동안 고객의 비활성 상태 개월 수,int
+Contacts_Count_12_mon,지난 12개월 동안 고객이 보유한 연락처 수,int
+Credit_Limit,고객의 신용한도,int
+Total_Revolving_Bal,고객의 총 회전 잔액,int
+Avg_Open_To_Buy,고객의 평균 구매 가능 비율,int
+Total_Amt_Chng_Q4_Q1,변화된 총 비용,int
+Total_Trans_Amt,총 거래 금액,int
+Total_Trans_Ct,총 거래 횟수,int
+Total_Ct_Chng_Q4_Q1,변화된 총 거래 횟수,int
+Avg_Utilization_Ratio,고객 평균 이용률,Integer
