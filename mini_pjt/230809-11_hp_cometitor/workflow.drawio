@@ -1,56 +1,59 @@
-<mxfile host="app.diagrams.net" modified="2023-08-10T07:54:08.669Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="IeG7wzZlFiUf7qlCl0bX" version="21.6.6" type="device">
+<mxfile host="app.diagrams.net" modified="2023-08-11T07:08:18.972Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="WFXiKfXiRY7BjolNSjzn" version="21.6.8" type="browser">
   <diagram name="페이지-1" id="sjlKMROf6lcoY4VFvfqp">
-    <mxGraphModel dx="1315" dy="953" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="792" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-14" value="데이터 수집" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-14" value="데이터 수집" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="314" y="370" width="200" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-15" value="- 해법수학 및 경쟁사 지점 정보 &lt;br&gt;&amp;nbsp; &amp;nbsp;크롤링&lt;br&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="xjf8yatHy-BJ_GK9Fu0P-14">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-15" value="- 해법수학 및 경쟁사 지점 정보 &lt;br&gt;&amp;nbsp; &amp;nbsp;크롤링&lt;br&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="xjf8yatHy-BJ_GK9Fu0P-14" vertex="1">
           <mxGeometry y="30" width="200" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-16" value="- 지역별 초, 중, 고&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&amp;nbsp; 월 평균 1인당 사교육비" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="xjf8yatHy-BJ_GK9Fu0P-14">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-16" value="- 지역별 초, 중, 고&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&amp;nbsp; 월 평균 1인당 사교육비" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="xjf8yatHy-BJ_GK9Fu0P-14" vertex="1">
           <mxGeometry y="60" width="200" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-17" value="- 전국 학원 수&lt;br&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="xjf8yatHy-BJ_GK9Fu0P-14">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-17" value="- 전국 학원 수&lt;br&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="xjf8yatHy-BJ_GK9Fu0P-14" vertex="1">
           <mxGeometry y="100" width="200" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-18" value="시각화" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-          <mxGeometry x="554" y="370" width="200" height="130" as="geometry" />
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-18" value="모델링" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="560" y="445" width="200" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-19" value="&amp;nbsp;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="xjf8yatHy-BJ_GK9Fu0P-18">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-20" value="- Linear Regression 추세 예측" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="xjf8yatHy-BJ_GK9Fu0P-18" vertex="1">
           <mxGeometry y="30" width="200" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-20" value="- seaborn 라이브러리 regplot 활용" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="xjf8yatHy-BJ_GK9Fu0P-18">
+        <mxCell id="PrOH94vfwpiyWYjk4j2e-7" value="- Polynomial Regression 추세 확인" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="xjf8yatHy-BJ_GK9Fu0P-18" vertex="1">
           <mxGeometry y="60" width="200" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-21" value="&amp;nbsp;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="xjf8yatHy-BJ_GK9Fu0P-18">
-          <mxGeometry y="90" width="200" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-22" value="기획" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-22" value="기획" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
           <mxGeometry x="74" y="370" width="200" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-23" value="- 전국 사교육비 추세 분석" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="xjf8yatHy-BJ_GK9Fu0P-22">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-23" value="- 전국 사교육비 추세 분석" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="xjf8yatHy-BJ_GK9Fu0P-22" vertex="1">
           <mxGeometry y="30" width="200" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-24" value="- 사교육 경로 분석" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="xjf8yatHy-BJ_GK9Fu0P-22">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-24" value="- 사교육 경로 분석" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="xjf8yatHy-BJ_GK9Fu0P-22" vertex="1">
           <mxGeometry y="60" width="200" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-25" value="- 전국 학원 수 대비 &lt;br&gt;&amp;nbsp; &amp;nbsp;해법수학 비율 분석" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="xjf8yatHy-BJ_GK9Fu0P-22">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-25" value="- 전국 학원 수 대비 &lt;br&gt;&amp;nbsp; &amp;nbsp;해법수학 비율 분석" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="xjf8yatHy-BJ_GK9Fu0P-22" vertex="1">
           <mxGeometry y="90" width="200" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-36" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.002;entryY=0.336;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.999;exitY=0.252;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="xjf8yatHy-BJ_GK9Fu0P-16" target="xjf8yatHy-BJ_GK9Fu0P-20">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="490" y="490" as="sourcePoint" />
-            <mxPoint x="540" y="440" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-37" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.002;entryY=0.336;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.999;exitY=0.252;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+        <mxCell id="xjf8yatHy-BJ_GK9Fu0P-37" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.002;entryY=0.336;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.999;exitY=0.252;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="274" y="440" as="sourcePoint" />
             <mxPoint x="314" y="440" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="PrOH94vfwpiyWYjk4j2e-1" value="시각화" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="560" y="370" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PrOH94vfwpiyWYjk4j2e-3" value="- seaborn 라이브러리 regplot 활용" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="PrOH94vfwpiyWYjk4j2e-1" vertex="1">
+          <mxGeometry y="30" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PrOH94vfwpiyWYjk4j2e-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="xjf8yatHy-BJ_GK9Fu0P-16" target="xjf8yatHy-BJ_GK9Fu0P-20" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PrOH94vfwpiyWYjk4j2e-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="xjf8yatHy-BJ_GK9Fu0P-16" target="PrOH94vfwpiyWYjk4j2e-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
