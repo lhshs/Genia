@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-interface
+  namespace: kubeflow
+spec:
+  type: LoadBalancer
+  selector:
+    app: minio
+  ports:
+  - protocol: TCP
+    port: 9000
+    targetPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kfp-ui-interface
+  namespace: kubeflow
+spec:
+  type: LoadBalancer
+  selector:
+    app: ml-pipeline-ui
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kfp-external-interface
+  namespace: kubeflow
+spec:
+  type: LoadBalancer
+  selector:
+    app: ml-pipeline
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: 8888
