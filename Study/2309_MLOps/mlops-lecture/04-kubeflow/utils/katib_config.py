@@ -1,5 +1,7 @@
 from kubeflow import katib as ktb
+import settings
 
+IMAGE_URL = settings.KTB_IMAGE_URL
 
 ALGORITHM_SPEC = ktb.V1beta1AlgorithmSpec(
     algorithm_name="bayesianoptimization",
@@ -13,24 +15,34 @@ ALGORITHM_SPEC = ktb.V1beta1AlgorithmSpec(
 
 # Objective specification.
 OBJECTIVE_SPEC = ktb.V1beta1ObjectiveSpec(
-    type="",
-    goal=0,
-    objective_metric_name="",
+    type="minimize",
+    goal=0.8,
+    objective_metric_name="VAL_LOSS",
     metric_strategies=[
         ktb.V1beta1MetricStrategy(
-            name="",
-            value="",
+            name="VAL_LOSS",
+            value="min",
         ),
     ],
 )
+
 PARAMETERS = [
     ktb.V1beta1ParameterSpec(
-        name="",
-        parameter_type="",
+        name="epochs",
+        parameter_type="int",
         feasible_space=ktb.V1beta1FeasibleSpace(
-            min="",
-            max="",
-            step="",
+            min="10",
+            max="50",
+            step="2",
+        ),
+    ),
+    ktb.V1beta1ParameterSpec(
+        name="batch_size",
+        parameter_type="int",
+        feasible_space=ktb.V1beta1FeasibleSpace(
+            min="48",
+            max="256",
+            step="16",
         ),
     ),
 ]
@@ -46,10 +58,12 @@ TRIAL_SPEC = {
                 "containers": [
                     {
                         "name": "training-container",
-                        "image": "",
+                        "image": IMAGE_URL,
                         "command": [
                             "python",
-                            "",
+                            "02-training.py",
+                            "--epochs=${trialParameters.epochs}",
+                            "--batch_size=${trialParameters.batch_size}",
                         ],
                         "env": [
                             {
@@ -68,8 +82,13 @@ TRIAL_SPEC = {
 
 TRIAL_PARAMETERS = [
     ktb.V1beta1TrialParameterSpec(
-        name="",
-        description="",
-        reference="",
+        name="epochs",
+        description="epoch for the training model",
+        reference="epochs",
+    ),
+    ktb.V1beta1TrialParameterSpec(
+        name="batch_size",
+        description="batch_size for the training model",
+        reference="batch_size",
     ),
 ]

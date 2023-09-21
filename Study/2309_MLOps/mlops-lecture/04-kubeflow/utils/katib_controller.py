@@ -17,6 +17,7 @@ class KatibController(object):
         experiment_name: str,
         pip_name: str,
         model_type: str,
+        namespace: str,
         max_trial_count: int = 5,
         parallel_trial_count: int = 2,
         max_failed_trial_count: int = 2,
@@ -29,11 +30,14 @@ class KatibController(object):
         self.max_trial_count = max_trial_count
         self.parallel_trial_count = parallel_trial_count
         self.max_failed_trial_count = max_failed_trial_count
-        self.namespace = ""
+        self.namespace = namespace
 
     def set_experiment_spec(self):
         add_arguments = [
+            f"--pip_name={self.pip_name}",
+            f"--model_type={self.model_type}",
         ]
+
         for arg in add_arguments:
             TRIAL_SPEC["spec"]["template"]["spec"]["containers"][0]["command"].append(
                 arg
