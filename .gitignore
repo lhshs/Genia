@@ -2,3 +2,7 @@
 data/
 crawling/
 jenkins_home/
+
+# route
+Study/2309_NLP/x_train.pickle
+Study/2309_NLP/x_test.pickle
