@@ -1,23 +1,62 @@
+from flet import *
 import flet as ft
 
-def main(page:ft.Page):
-    page.title = 'Hello UI'
+import random
 
-    def on_click_handler(e):
-        print('Button Accept', text_field.value)
-        page.add(ft.Text(text_field.value))
-        text_field.value = ''
-        page.update()
+def main(page: ft.Page):
 
-    page.add(ft.Text('빅데이터 4기 first-line 조'))
+    '''
+    allign
+    '''
+    page.horizontal_alignment = "center"
+    page.vertical_alignment = "center"
 
-    text_field = ft.TextField(hint_text='이름을 입력하세요', on_submit=on_click_handler)
-    page.add(text_field)
+    '''
+    Container
+    '''
+    c1 = ft.Container(
+        ft.Text("A", style=ft.TextThemeStyle.HEADLINE_MEDIUM),
+        alignment=ft.alignment.center,
+        width=100,
+        height=100,
+        bgcolor=ft.colors.GREEN,
+    )
+    c2 = ft.Container(
+        ft.Text("B", size=50),
+        alignment=ft.alignment.center,
+        width=100,
+        height=100,
+        bgcolor=ft.colors.YELLOW,
+    )
 
-    page.add(ft.ElevatedButton('Send', on_click=on_click_handler))
+    '''
+    Container Switch
+    '''
+    c = ft.AnimatedSwitcher(
+        c1,
+        transition=ft.AnimatedSwitcherTransition.SCALE,
+        duration=500,
+        reverse_duration=100,
+        switch_in_curve=ft.AnimationCurve.BOUNCE_OUT,
+        switch_out_curve=ft.AnimationCurve.BOUNCE_IN,
+        offset = transform.Offset(0,0),
+    )
 
+    '''
+    Animation
+    '''
+    def animate(e):
+        c.content = c2 if c.content == c1 else c1
+        c.offset = transform.Offset(random.randrange(-1, 2), random.randrange(-1, 2)) if c.offset == transform.Offset(0, 0) else transform.Offset(0, 0)
+        c.update()
 
+    '''
+    ADD
+    '''
+    page.add(
+        c,
+        ft.ElevatedButton("Click!", on_click=animate, offset=transform.Offset(0,4)),
+    )
 
-    page.update()    
 
 ft.app(target=main)
