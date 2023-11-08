@@ -1,11 +1,19 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:camera/camera.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: ImageMoveApp(),
     );
@@ -13,13 +21,40 @@ class MyApp extends StatelessWidget {
 }
 
 class ImageMoveApp extends StatefulWidget {
+  const ImageMoveApp({super.key});
+
+
   @override
   _ImageMoveAppState createState() => _ImageMoveAppState();
 }
 
+
 class _ImageMoveAppState extends State<ImageMoveApp> {
   double imageX = 120;
   double imageY = 300;
+
+  File? _image;
+  Future getImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (image == null) return;
+    final imageTemporary = File(image.path);
+    setState(() {
+      _image = imageTemporary;
+    });
+    final savedImagePath = await saveImage(imageTemporary);
+    // print('Image saved to: $savedImagePath');
+  }
+
+  Future<String?> saveImage(File imageFile) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final folderPath = '${directory.path}/user_images';
+    await Directory(folderPath).create(recursive: true);
+    final fileName = imageFile.path;
+    final filePath = '$folderPath/$fileName';
+    await GallerySaver.saveImage(filePath);
+    return filePath;
+  }
+
 
   void moveImage(double dx, double dy) {
     setState(() {
@@ -34,7 +69,7 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
       backgroundColor: Colors.yellow[200],
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Big4 FirstLine',
+        title: const Text('Big4 FirstLine',
             style: TextStyle(fontFamily: 'Verdana', fontSize: 25)),
       ),
       body: Center(
@@ -54,32 +89,29 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                icon: Icon(Icons.camera_alt),
-                onPressed: () {
-                  // requestCameraPermission(); // Request camera permission
-                  // initializeCamera(); // Initialize the camera
-                },
+                icon: const Icon(Icons.camera_alt),
+                onPressed: getImage,
               ),
               IconButton(
-                icon: Icon(Icons.arrow_upward),
+                icon: const Icon(Icons.arrow_upward),
                 onPressed: () {
                   moveImage(0, -20); // Move image up
                 },
               ),
               IconButton(
-                icon: Icon(Icons.arrow_downward),
+                icon: const Icon(Icons.arrow_downward),
                 onPressed: () {
                   moveImage(0, 20); // Move image down
                 },
               ),
               IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   moveImage(-20, 0); // Move image left
                 },
               ),
               IconButton(
-                icon: Icon(Icons.arrow_forward),
+                icon: const Icon(Icons.arrow_forward),
                 onPressed: () {
                   moveImage(20, 0); // Move image right
                 },
@@ -91,136 +123,3 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
   }
 }
 
-
-
-
-//       Column(
-//         mainAxisAlignment: MainAxisAlignment.end,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//             children: [
-//               IconButton(
-//                 icon: Icon(Icons.camera_alt),
-//                 onPressed: () {
-//                   // requestCameraPermission(); // Request camera permission
-//                   // initializeCamera(); // Initialize the camera
-//                 },
-//               ),
-//               IconButton(
-//                 icon: Icon(Icons.arrow_upward),
-//                 onPressed: () {
-//                   moveImage(0, -20); // Move image up
-//                 },
-//               ),
-//               IconButton(
-//                 icon: Icon(Icons.arrow_downward),
-//                 onPressed: () {
-//                   moveImage(0, 20); // Move image down
-//                 },
-//               ),
-//               IconButton(
-//                 icon: Icon(Icons.arrow_back),
-//                 onPressed: () {
-//                   moveImage(-20, 0); // Move image left
-//                 },
-//               ),
-//               IconButton(
-//                 icon: Icon(Icons.arrow_forward),
-//                 onPressed: () {
-//                   moveImage(20, 0); // Move image right
-//                 },
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
-//
-// import 'dart:io';
-// import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
-//
-// void main() {
-//   runApp(const MyApp());
-// }
-//
-// class MyApp extends StatefulWidget {
-//   const MyApp({Key? key}) : super(key: key);
-//
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-//
-// class _MyAppState extends State<MyApp> {
-//   XFile? _image; //이미지를 담을 변수 선언
-//   final ImagePicker picker = ImagePicker(); //ImagePicker 초기화
-//
-//   //이미지를 가져오는 함수
-//   Future getImage(ImageSource imageSource) async {
-//     //pickedFile에 ImagePicker로 가져온 이미지가 담긴다.
-//     final XFile? pickedFile = await picker.pickImage(source: imageSource);
-//     if (pickedFile != null) {
-//       setState(() {
-//         _image = XFile(pickedFile.path); //가져온 이미지를 _image에 저장
-//       });
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(title: Text("Camera Test")),
-//         body: Column(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             SizedBox(height: 30, width: double.infinity),
-//             _buildPhotoArea(),
-//             SizedBox(height: 20),
-//             _buildButton(),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildPhotoArea() {
-//     return _image != null
-//         ? Container(
-//       width: 300,
-//       height: 300,
-//       child: Image.file(File(_image!.path)), //가져온 이미지를 화면에 띄워주는 코드
-//     )
-//         : Container(
-//       width: 300,
-//       height: 300,
-//       color: Colors.grey,
-//     );
-//   }
-//
-//   Widget _buildButton() {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         ElevatedButton(
-//           onPressed: () {
-//             getImage(ImageSource.camera); //getImage 함수를 호출해서 카메라로 찍은 사진 가져오기
-//           },
-//           child: Text("카메라"),
-//         ),
-//         SizedBox(width: 30),
-//         ElevatedButton(
-//           onPressed: () {
-//             getImage(ImageSource.gallery); //getImage 함수를 호출해서 갤러리에서 사진 가져오기
-//           },
-//           child: Text("갤러리"),
-//         ),
-//       ],
-//     );
-//   }
-// }
