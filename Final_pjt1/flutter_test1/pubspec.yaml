@@ -40,6 +40,8 @@ dependencies:
   path: ^1.8.3
   image_gallery_saver: ^2.0.3
   gallery_saver: ^2.3.2
+  postgres: ^2.6.3
+  process_run: ^0.13.2
 
 dev_dependencies:
   flutter_test:

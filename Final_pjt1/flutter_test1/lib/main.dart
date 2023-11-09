@@ -1,9 +1,12 @@
 import 'dart:io';
+// import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+// import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:camera/camera.dart';
-import 'package:path_provider/path_provider.dart';
+// import 'package:camera/camera.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:postgres/postgres.dart';
+// import 'package:process_run/shell.dart';
 
 void main() => runApp(const MyApp());
 
@@ -23,38 +26,37 @@ class MyApp extends StatelessWidget {
 class ImageMoveApp extends StatefulWidget {
   const ImageMoveApp({super.key});
 
-
   @override
   _ImageMoveAppState createState() => _ImageMoveAppState();
 }
-
 
 class _ImageMoveAppState extends State<ImageMoveApp> {
   double imageX = 120;
   double imageY = 300;
 
-  File? _image;
-  Future getImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (image == null) return;
-    final imageTemporary = File(image.path);
-    setState(() {
-      _image = imageTemporary;
-    });
-    final savedImagePath = await saveImage(imageTemporary);
-    // print('Image saved to: $savedImagePath');
-  }
+File? _image;
+Future getImage() async {
+  final image = await ImagePicker().pickImage(source: ImageSource.camera);
+  if (image == null) return;
+  final imageFile = File(image.path);
 
-  Future<String?> saveImage(File imageFile) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final folderPath = '${directory.path}/user_images';
-    await Directory(folderPath).create(recursive: true);
-    final fileName = imageFile.path;
-    final filePath = '$folderPath/$fileName';
-    await GallerySaver.saveImage(filePath);
-    return filePath;
-  }
+  // Get the current time
+  // final currentTime = DateTime.now().toString();
 
+  // Connect to the PostgreSQL database
+  // final connection = PostgreSQLConnection('10.0.2.2', 5432, 'FirstLine',
+  // username: 'postgres', password: '1q2w3e');
+  // await connection.open();
+
+  // Insert the image name and current time into the appropriate table and columns in the database
+  // await connection.execute(
+  //   "INSERT INTO user_data (time, title, image) VALUES(@time, @title, @image)",
+  //   substitutionValues: {"time": currentTime, "title": image.name, "image" : ImageByteFormat});
+
+  // await connection.close();
+
+  // Run the Python script and move the image up if the output is '1'
+  }
 
   void moveImage(double dx, double dy) {
     setState(() {
