@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "221051241412",
+    "firebase_url": "https://firstline-17bda-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "firstline-17bda",
+    "storage_bucket": "firstline-17bda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221051241412:android:c65f6c26c4618928295a91",
+        "android_client_info": {
+          "package_name": "com.example.first_line_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ0Iy0kxbx_4m8UDL88LZumGxXR7VweeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

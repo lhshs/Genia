@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCqayZqNUo6il07pD_QJcf-9HX0RAuY2Es</string>
+	<key>GCM_SENDER_ID</key>
+	<string>221051241412</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.firstLineFirebase</string>
+	<key>PROJECT_ID</key>
+	<string>firstline-17bda</string>
+	<key>STORAGE_BUCKET</key>
+	<string>firstline-17bda.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:221051241412:ios:ca9589f30713056b295a91</string>
+	<key>DATABASE_URL</key>
+	<string>https://firstline-17bda-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>
