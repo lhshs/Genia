@@ -11,17 +11,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  // await FirebaseAppCheck.instance.activate();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  // String url;
 
   @override
   Widget build(BuildContext context) {
@@ -83,29 +87,6 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
     // Add a new item
     await _reference.add(dataToSend);
 
-    /*
-    // Get the temporary directory
-    final tempDir = await getTemporaryDirectory();
-    final tempImage = File('${tempDir.path}/${image.name}');
-    
-    // Copy the image to the temporary directory
-    await imageFile.copy(tempImage.path);
-
-    // Upload the image to Firebase Storage
-    await ref.putFile(tempImage);
-  
-    // Get the download URL
-    final downloadUrl = await ref.getDownloadURL();
-
-    // Create a new document in Firestore and store the download URL
-    await FirebaseFirestore.instance.collection('user').add({
-      'date' : currentTime,
-      'url': downloadUrl,
-    // Add any other data you want to store here
-
-    // You can now use the downloadUrl to display the image
-    });
-    */
   }
 
   void moveImage(double dx, double dy) {
@@ -113,19 +94,6 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
       imageX += dx;
       imageY += dy;
     });
-  }
-
-
-
-  void sendSignal(String signal) async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-    await messaging.subscribeToTopic('signal');
-    await messaging.send(
-      message: RemoteMessage(
-        topic: 'signal',
-        data: {'signal': signal},
-      ),
-    );
   }
 
   @override
