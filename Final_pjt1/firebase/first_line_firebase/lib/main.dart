@@ -14,6 +14,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'API.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class ImageMoveApp extends StatefulWidget {
   const ImageMoveApp({super.key});
 
@@ -44,7 +47,7 @@ class ImageMoveApp extends StatefulWidget {
 }
 
 class _ImageMoveAppState extends State<ImageMoveApp> {
-  double imageX = 120;
+  double imageX = 60;
   double imageY = 300;
   String imageUrl = '';
   DateTime currentTime = DateTime.now();
@@ -53,13 +56,16 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
   final CollectionReference _reference = FirebaseFirestore.instance.collection('user');
 
   File? _image;
+  
+  var uniqueFileName;
   Future getImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
+
     if (image == null) return;
     // final imageFile = File(image.path);
 
     // Make Unique Name
-    String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
+    uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
 
     // Create a reference to Firebase Storage
     Reference referenceRoot = FirebaseStorage.instance.ref();
@@ -85,11 +91,10 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
     };
 
     // Add a new item
-    await _reference.add(dataToSend);
-
+    await _reference.doc(uniqueFileName).set(dataToSend);
   }
 
-  void moveImage(double dx, double dy) {
+  void moveImage(int dx, int dy) {
     setState(() {
       imageX += dx;
       imageY += dy;
@@ -99,19 +104,48 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[200],
+      backgroundColor: Colors.white, // grey[700],
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Big4 FirstLine',
-            style: TextStyle(fontFamily: 'Verdana', fontSize: 25)),
+            style: TextStyle(
+              fontFamily: 'Lato',
+              fontSize: 20,
+              color: Colors.black)
+              ),
+        backgroundColor: Colors.white,
       ),
       body: Center(
         child: Stack(
           children: [
-            Positioned(
+            Positioned.fill(
+              top: -50,
+              left: -50,
+              bottom: -120,
+              child: SizedBox(
+                width: 100, // Set the width to your desired size
+                height: 100,
+                child: Image.asset(
+                  'lib/images/winter_maze1.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned.fill(
+              child: Image.asset(
+              'lib/images/snow1.gif',
+              fit: BoxFit.cover,
+              ),
+            ),
+            AnimatedPositioned(
               top: imageY,
               left: imageX,
-              child: Image.asset('lib/images/snowman.png'),
+              duration: const Duration(milliseconds: 300),
+              child: SizedBox(
+                width: 150,
+                height: 150,
+                child: Image.asset('lib/images/rudolph.png'),
+            ),
             ),
           ],
         ),
@@ -122,31 +156,27 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           IconButton(
-            icon: const Icon(Icons.camera_alt),
+            icon: const Icon(Icons.camera_alt, color: Colors.black),
             onPressed: getImage,
           ),
           IconButton(
-            icon: const Icon(Icons.arrow_upward),
-            onPressed: () {
-              moveImage(0, -20); // Move image up
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_downward),
-            onPressed: () {
-              moveImage(0, 20); // Move image down
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              moveImage(-20, 0); // Move image left
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_forward),
-            onPressed: () {
-              moveImage(20, 0); // Move image right
+            icon: const Icon(Icons.favorite, color: Colors.black),
+            onPressed: () async {
+              print('API 전 $uniqueFileName');
+              Map<String, dynamic> success = await getFastAPIResponse(uniqueFileName);
+              int moveAmount = success['number'][0];
+              if (success['direction'][0] == 'L') {
+                moveImage((-20 * moveAmount), 0); // Move image left
+              }
+              else if (success['direction'][0] == 'R') {
+                moveImage((20 * moveAmount), 0); // Move image right
+              }
+              else if (success['direction'][0] == 'U') {
+                moveImage(0, (-20 * moveAmount));// Move image up
+              }
+              else {
+                moveImage(0, (20 * moveAmount)); // Move image down
+              }
             },
           ),
         ],
@@ -154,5 +184,10 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
       // ],
     );
   }
-}
 
+
+
+
+
+
+}
