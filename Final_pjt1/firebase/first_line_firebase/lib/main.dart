@@ -56,57 +56,45 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
   // Get a reference to the Firestore collection
   // final CollectionReference _reference = FirebaseFirestore.instance.collection('user');
   // ignore: deprecated_member_use
-
-
   File? _image;
-  
   var uniqueFileName;
+
   Future getImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (image == null) return;
-    // final imageFile = File(image.path);
+
+    // Show loading dialog
+    // ignore: use_build_context_synchronously
+    showDialog(
+  context: context,
+  barrierDismissible: false,
+  builder: (BuildContext context) {
+    return Center(
+      child: Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Padding(
+          padding: EdgeInsets.all(12.0),
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  },
+);
 
     // Make Unique Name
     uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
-
-    /***** FireStore Storage
-    // Create a reference to Firebase Storage
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot.child('images');
-
-    // Create a reference for the image to be stored
-    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
-
-    // Handle errors & success
-    try{
-      // Store the file
-      await referenceImageToUpload.putFile(File(image.path));
-      // Success : get the download URL
-      imageUrl = await referenceImageToUpload.getDownloadURL();
-     }catch(error){
-      // Some error occured
-    }
-        // Create a Map of data
-      Map<String, dynamic> dataToSend = {
-      'name' : uniqueFileName,
-      'time' : DateTime.now().toString(),
-      'image' : imageUrl,
-      };
-
-        // Add a new item
-        await _reference.set(dataToSend);
-    */
-
     // Create a reference for the image to be stored
     Reference referenceImageToUpload = FirebaseStorage.instance.ref().child(uniqueFileName);
-
     // Store the file
     UploadTask uploadTask = referenceImageToUpload.putFile(File(image.path));
-
     // Wait for the upload to complete
     await uploadTask.whenComplete(() {});
-
     // Get the download URL
     String downloadUrl = await referenceImageToUpload.getDownloadURL();
 
@@ -115,6 +103,9 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
       "image_url": downloadUrl,
       "time" : DateTime.now().toString(),
       });
+
+    Navigator.pop(context);
+
   }
 
   void moveImage(int dx, int dy) {
@@ -142,16 +133,6 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
         child: Stack(
           children: [
             Positioned.fill(
-              child: SizedBox(
-                width: 80, // Set the width to your desired size
-                height: 80,
-                child: Image.asset(
-                  'lib/images/maze1.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned.fill(
               child: Image.asset(
               'lib/images/snow1.gif',
               fit: BoxFit.cover,
@@ -171,7 +152,6 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
         ),
       ),
       bottomNavigationBar:
-      // children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -180,43 +160,111 @@ class _ImageMoveAppState extends State<ImageMoveApp> {
             onPressed: getImage,
           ),
           TextButton(
-              onPressed: () async {
-                print('API 전 $uniqueFileName');
-                Map<String, dynamic> success = await getFastAPIResponse(uniqueFileName);
+            // Juuns Model
+            onPressed: () async {
+              print('Succeed To Get API');
+              final response = await Juuns_API(uniqueFileName);
+              String errorMessage = '';
 
+              if (response.body == 'Internal Server Error') {
+                errorMessage = 'Internal Server Error';
+              }
+
+              if (errorMessage.contains('Error')) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(errorMessage, style: const TextStyle(color: Colors.yellowAccent)),
+                  duration: const Duration(seconds: 5))
+                );
+              }
+              else {
+                final Map<String, dynamic> success = json.decode(response.body);
                 for (int i = 0; i < success['direction'].length; i++) {
-                  int moveAmount = success['number'][0];
-                  if (success['direction'][0] == 'L') {
-                    moveImage((-20 * moveAmount), 0);} // Move image left
-                  else if (success['direction'][0] == 'R') {
-                    moveImage((20 * moveAmount), 0);} // Move image right
-                  else if (success['direction'][0] == 'U') {
-                    moveImage(0, (-20 * moveAmount));}// Move image up
-                  else {
-                    moveImage(0, (20 * moveAmount));} // Move image down
+                  int moveAmount = success['number'][i];
+                  
+                  for (int j = 0; j < moveAmount; j++) {
+                    if (success['direction'][i] == 'L') {
+                      moveImage(-15, 0);} // Move image left
+                    else if (success['direction'][i] == 'R') {
+                      moveImage(15, 0);} // Move image right
+                    else if (success['direction'][i] == 'U') {
+                      moveImage(0, -15);} // Move image up
+                    else {
+                      moveImage(0, 15);} // Move image down
+                    
+                  await Future.delayed(const Duration(milliseconds: 500)); // delay 500 milliseconds
+                  }
+                  await Future.delayed(const Duration(milliseconds: 500)); // delay 500 milliseconds
+                  }
                 }
               },
               child: const Row(
                 children: <Widget> [
+                  Icon(Icons.grade, color: Colors.orange),
                   Text('J', style: TextStyle(color: Colors.orange)),
-                  Icon(Icons.grade, color: Colors.orange, size: 20),
-                  Icon(Icons.grade, color: Colors.orange, size: 20),
+                  Text('U', style: TextStyle(color: Colors.orange)),
+                  Text('U', style: TextStyle(color: Colors.orange)),
                   Text('N', style: TextStyle(color: Colors.orange)),
                   Text('S', style: TextStyle(color: Colors.orange)),
-                ],
-              ),
+                  Icon(Icons.grade, color: Colors.orange),
+              ],
+            ),
           ),
           TextButton(
+            // Yolo Model
             onPressed: () async {
-              // YOLO API CODE
-              moveImage(0, -65);
+              print('API 전 $uniqueFileName');
+              
+              Map<String, dynamic> success = await Yolo_API(uniqueFileName);
+              print('Succeed To Get API');
+              // print(success['direction'].length);
+              String errorMessage = 'Error: ';
+
+              if (success['direction'].length == 0) {
+                errorMessage += '"Direction" ';
+              } 
+              if (success['number'].length == 0) {
+                errorMessage += '"Number" ';
+              }
+              if (success['action'].length == 0) {
+                errorMessage += '"Action" ';
+              }
+
+              errorMessage += 'value is zero.';
+              
+              if (errorMessage.contains('Direction') || errorMessage.contains('Number') || errorMessage.contains('Action')) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(errorMessage, style: const TextStyle(color: Colors.yellowAccent)),
+                  duration: const Duration(seconds: 5))
+                );
+              }  
+              else {
+                for (int i = 0; i < success['direction'].length; i++) {
+                  int moveAmount = success['number'][i];
+                  
+                  for (int j = 0; j < moveAmount; j++) {
+                    if (success['direction'][i] == 'L') {
+                      moveImage(-15, 0);} // Move image left
+                    else if (success['direction'][i] == 'R') {
+                      moveImage(15, 0);} // Move image right
+                    else if (success['direction'][i] == 'U') {
+                      moveImage(0, -15);} // Move image up
+                    else {
+                      moveImage(0, 15);} // Move image down
+                    
+                  await Future.delayed(const Duration(milliseconds: 500)); // delay 500 milliseconds
+                  }
+                  await Future.delayed(const Duration(milliseconds: 500)); // delay 500 milliseconds
+                  }
+                }
               },
               child: const Row(
                 children: <Widget>[
+                  Icon(Icons.favorite, color: Colors.lightBlueAccent),
                   Text('Y'),
-                  Icon(Icons.favorite, color: Colors.lightBlueAccent, size: 20),
+                  Text('O'),
                   Text('L'),
-                  Icon(Icons.favorite, color: Colors.lightBlueAccent, size: 20),
+                  Text('O'),
+                  Icon(Icons.favorite, color: Colors.lightBlueAccent),
                   ],
                 ),
               ),
