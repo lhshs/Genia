@@ -1,0 +1,88 @@
+<mxfile host="app.diagrams.net" modified="2023-11-28T08:31:10.803Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="BDOLYoz8xCRXYdO5DnzK" version="22.1.4" type="device">
+  <diagram name="페이지-1" id="W81MjS3JdOIW0sK6KqG9">
+    <mxGraphModel dx="944" dy="1294" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#3333FF;" parent="1" source="mHtmKmi2NnYr5ayCDyRn-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="100" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="520" y="100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-34" value="&amp;nbsp;Video &amp;amp; Data Response&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="hTMQAZU4Wzq6zMqW2UKY-20" vertex="1" connectable="0">
+          <mxGeometry x="-0.0804" y="-1" relative="1" as="geometry">
+            <mxPoint x="2" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mHtmKmi2NnYr5ayCDyRn-2" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;DB&lt;/font&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;rounded=1;glass=0;shadow=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="160" y="40" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#3333FF;" parent="1" source="mHtmKmi2NnYr5ayCDyRn-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="130" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="320" y="130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-37" value="&amp;nbsp;Video &amp;amp; Data Request&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="hTMQAZU4Wzq6zMqW2UKY-19" vertex="1" connectable="0">
+          <mxGeometry x="-0.0826" y="-4" relative="1" as="geometry">
+            <mxPoint x="-14" y="3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mHtmKmi2NnYr5ayCDyRn-3" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Server&lt;/font&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="520" y="40" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#FF8000;" parent="1" target="mHtmKmi2NnYr5ayCDyRn-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="80" y="120" />
+            </Array>
+            <mxPoint x="80" y="220" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-33" value="Video Data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="hTMQAZU4Wzq6zMqW2UKY-32" vertex="1" connectable="0">
+          <mxGeometry x="-0.4148" relative="1" as="geometry">
+            <mxPoint y="-27" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#FF8000;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="160" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="80" y="160" />
+            </Array>
+            <mxPoint x="80" y="220" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-40" value="&amp;nbsp;Request&amp;nbsp;Analyzed Data&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="hTMQAZU4Wzq6zMqW2UKY-39" vertex="1" connectable="0">
+          <mxGeometry x="-0.5331" y="-2" relative="1" as="geometry">
+            <mxPoint x="277" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-4" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://images.velog.io/images/bonjaski0989/post/e24aa1c8-82dd-4aaa-937c-b2bc13ea3ab0/amazon_ec2.png;clipPath=inset(12.5% 33.33% 39.06% 33.33%);" parent="1" vertex="1">
+          <mxGeometry x="490" y="13.32" width="82.45" height="76.68" as="geometry" />
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-8" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://miro.medium.com/v2/resize:fit:300/1*7Uy7Te2Ntb0NKONahotnqg.png;" parent="1" vertex="1">
+          <mxGeometry x="140" y="16.660000000000004" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#FF8000;" parent="1" source="mHtmKmi2NnYr5ayCDyRn-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="120" />
+            </Array>
+            <mxPoint x="760" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTMQAZU4Wzq6zMqW2UKY-36" value="Respose Analyzed Data&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="hTMQAZU4Wzq6zMqW2UKY-16" vertex="1" connectable="0">
+          <mxGeometry x="-0.193" y="1" relative="1" as="geometry">
+            <mxPoint x="7" y="41" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
