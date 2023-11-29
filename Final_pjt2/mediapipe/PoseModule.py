@@ -6,19 +6,56 @@ import math
 
 class poseDetector():
 
-    def __init__(self, mode=False, upBody=False, smooth=True,
-                 detectionCon=0.5, trackCon=0.5):
+    def __init__(self, 
+                 mode=False, 
+                 model=1, 
+                 smooth=True, 
+                 enable_s=False, 
+                 smooth_s=True, 
+                 detectionCon=0.5, 
+                 trcakCon=0.5):
+        """
+        static_image_mode(mode) / 정적_이미지_모드 :
+            Whether to treat the input images as a batch of static and possibly unrelated images, or a video stream.
+            입력된 이미지를 정적 이미지와 관련이 없을 수도 있는 이미지의 배치로 처리할지 또는 비디오 스트림으로 처리할지 여부입니다.
+            
+        model_complexity(model) / 모델_복잡성 :
+            Complexity of the pose landmark model: 0, 1 or 2.
+            포즈 랜드마크 모델의 복잡도 : 0, 1 또는 2.
+            
+        smooth_landmarks(smooth) / 부드러운_랜드마크 :
+            Whether to filter landmarks across different input images to reduce jitter.
+            지터를 줄이기 위해 여러 입력 영상에 걸쳐 랜드마크를 필터링할지 여부.
+            
+        enable_segmentation(enable_s) / 분할_허용 :
+            Whether to predict segmentation mask.
+            분할 마스크를 예측할지 여부.
 
+        smooth_segmentation(smooth_s) / 부드러운_분할 :
+            Whether to filter segmentation across different input images to reduce jitter.
+            지터를 줄이기 위해 여러 입력 영상에 걸쳐 분할을 필터링할지 여부.
+
+        min_detection_confidence(detectionCon) / 최소_탐지_신뢰값 :
+            Minimum confidence value ([0.0, 1.0]) for person detection to be considered successful.
+            개인 탐지가 성공적인 것으로 간주되기 위한 최소 신뢰 값([0.0, 1.0]).
+
+        min_tracking_confidence(trcakCon) /최소_추적 _신뢰값 :
+            Minimum confidence value ([0.0, 1.0]) for the pose landmarks to be considered tracked successfully.
+            성공적으로 추적되는 포즈 랜드마크의 최소 신뢰도 값([0.0, 1.0]).
+        """
         self.mode = mode
-        self.upBody = upBody
+        self.model = model
         self.smooth = smooth
+        self.enable_s = enable_s
+        self.smooth_s = smooth_s
         self.detectionCon = detectionCon
-        self.trackCon = trackCon
-
+        self.trcakCon = trcakCon
         self.mpDraw = mp.solutions.drawing_utils
         self.mpPose = mp.solutions.pose
-        self.pose = self.mpPose.Pose(self.mode, self.upBody, self.smooth,
-                                     self.detectionCon, self.trackCon)
+        self.pose = self.mpPose.Pose(self.mode, self.model, self.smooth, 
+                                     self.enable_s, self.smooth_s, 
+                                     self.detectionCon, self.trcakCon)
+        
 
     def findPose(self, img, draw=True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -90,6 +127,7 @@ def main():
                     (255, 0, 0), 3)
 
         cv2.imshow("Image", img)
+        cv2.moveWindow("Image", 500, 500) # window position
         cv2.waitKey(1)
 
 
