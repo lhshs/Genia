@@ -1,37 +1,40 @@
 import nltk    
 import pandas as pd
-import plotly.express as px
 from nltk.tokenize import word_tokenize
 
-class Figure_Data:
+import s3
 
-    def __init__(self, data_path, text_path):
-        self.data_path = data_path
-        self.text_path = text_path
 
-    def fetch_data(self):
-        feature = pd.read_csv(self.data_path)
-        with open(self.text_path, 'r', encoding='utf-8') as file:
-            txt = file.read()
-        return feature, txt
+def first_data(route, first, configure='GPT'):
+    '''
+    Extract First Text Data
+    '''
+    first = s3.extract(route, first, configure)
+    return first
 
-    def preprocess_text(self):
-        feature, txt = self.fetch_data()
-        self.txt = txt
-        nltk.download('punkt')
-        nltk.download('stopwords')
-        stop_words = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에',
-                      '와','한','하다', '.', ',', '(', ')', '!', '?', '-', '‘', '’', '“', '”', '…', '텍스트는',
-                      '그리고', '그래서']
-        word_tokens = word_tokenize(txt.lower())
-        filtered_text = [word for word in word_tokens if word.isalpha() and word not in stop_words]
-        return filtered_text
-    
-    def get_processed_data(self):
-        feature, txt = self.fetch_data()
-        self.txt = txt
-        processed_text = self.preprocess_text()
-        return feature, processed_text
+def second_data(route, second, configure='GPT'):
+    '''
+    Extract Second Text Data
+    '''
+    second = s3.extract(route, second, configure)
+    return second
 
+
+def text_preprocess(first, second):
+    ''' 
+    Preprocess Text Data
+    ''' 
+    nltk.download('punkt')
+    nltk.download('stopwords')
+    stop_words = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에',
+                '와','한','하다', '.', ',', '(', ')', '!', '?', '-', '‘', '’', '“', '”', '…', '텍스트는',
+                '그리고', '그래서', '설명합니다', '중요성을 강조합니다', '논의합니다', '합니다', '있습니다', '있는', '있으며']
+    word_tokens_lecture = word_tokenize(first.lower())
+    filtered_top = [word for word in word_tokens_lecture if word.isalpha() and word not in stop_words]
+    # Preprocess the lecture_bottom data
+    word_tokens_lecture_bottom = word_tokenize(second.lower())
+    filtered_other = [word for word in word_tokens_lecture_bottom if word.isalpha() and word not in stop_words]
+
+    return filtered_top, filtered_other
 
 
