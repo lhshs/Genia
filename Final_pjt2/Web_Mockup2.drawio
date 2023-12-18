@@ -1,0 +1,22 @@
+<mxfile host="app.diagrams.net" modified="2023-12-18T02:24:42.116Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="WYkImNoN45o1-Yd0z3rC" version="22.1.11" type="device">
+  <diagram name="페이지-1" id="rInuaE_LNWb452cp8V9j">
+    <mxGraphModel dx="1053" dy="913" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="DNiDl7zgtREd2JpVn6Px-5" value="Upload Video 화면" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="149" y="380" width="250" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="DNiDl7zgtREd2JpVn6Px-3" value="&lt;b&gt;1 (첫 화면)&lt;/b&gt;" style="text;html=1;strokeColor=default;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="149" y="380" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="DNiDl7zgtREd2JpVn6Px-6" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;u&gt;&lt;b&gt;인기&lt;/b&gt;&lt;/u&gt; &lt;/font&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;vs&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt; &lt;u&gt;&lt;b&gt;비인기&lt;/b&gt;&lt;/u&gt;&lt;b&gt;&lt;u&gt; 1,2&lt;/u&gt;&lt;/b&gt; &lt;/font&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;vs&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt; &lt;b&gt;&lt;u&gt;User&lt;/u&gt;&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="429" y="380" width="250" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="DNiDl7zgtREd2JpVn6Px-4" value="&lt;b&gt;2 (업로드 후)&lt;/b&gt;" style="text;html=1;strokeColor=default;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="429" y="380" width="80" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
