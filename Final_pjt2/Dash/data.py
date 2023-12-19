@@ -1,5 +1,5 @@
-import nltk    
-import pandas as pd
+# import nltk    
+# import pandas as pd
 from nltk.tokenize import word_tokenize
 from collections import Counter
 
@@ -30,13 +30,18 @@ class DataProcessor:
         '''
         ncic = s3.extract(route, ncic, self.configure)
         return ncic
+    
+    def user_data(self, route, user_data):
+        '''
+        Extract User Video Text Data
+        '''
+        user_data = s3.extract(route, user_data)
+        return user_data
 
     def text_preprocess(self, text):
         ''' 
         Preprocess Text Data
         ''' 
-        nltk.download('punkt')
-        nltk.download('stopwords')
         stop_words = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에',
                     '와','한','하다', '.', ',', '(', ')', '!', '?', '-', '‘', '’', '“', '”', '…', '텍스트는',
                     '그리고', '그래서', '설명합니다', '중요성을 강조합니다', '논의합니다', '합니다', '있습니다', '있는', '있으며',
@@ -60,5 +65,20 @@ class DataProcessor:
         word_freq_second_list = [list(x) for x in word_freq_second.items()]
         word_freq_second_list = sorted(word_freq_second_list, key=lambda x: x[1], reverse=True)
 
-        return word_freq_first_list, word_freq_second_list    
+        return word_freq_first_list, word_freq_second_list   
+
+    def get_most_recent_file(bucket_name, prefix):
+        s3 = boto3.client('s3')
+        objects = s3.list_objects_v2(Bucket=bucket_name)['Contents']
+    
+        # Filter objects in the 'user/transcript/' path
+        relevant_objects = [obj for obj in objects if obj['Key'].startswith(prefix)]
+    
+        # Sort objects by last modified date/time in descending order
+        sorted_objects = sorted(relevant_objects, key=lambda obj: obj['LastModified'], reverse=True)
+    
+        # Get the most recent object
+        most_recent_object = sorted_objects[0]
+    
+        return most_recent_object['Key']
     

@@ -9,7 +9,7 @@ s3 = boto3.client('s3', aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KE
                   aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
 bucket_name = settings.DB_SETTINGS['_s3']['BUCKET_NAME']
 
-def extract(route, con_str, con_str2):
+def extract(route, con_str, con_str2=None):
     '''
     route: str, text routh which you want to extract
     con_str: str, text which you want to contain in file name
@@ -32,5 +32,18 @@ def extract(route, con_str, con_str2):
     
     return result
 
+def get_most_recent_file(prefix):
+    objects = s3.list_objects_v2(Bucket=bucket_name)['Contents']
+
+    # Filter objects in the 'user/transcript/' path
+    relevant_objects = [obj for obj in objects if obj['Key'].startswith(prefix)]
+
+    # Sort objects by last modified date/time in descending order
+    sorted_objects = sorted(relevant_objects, key=lambda obj: obj['LastModified'], reverse=True)
+
+    # Get the most recent object
+    most_recent_object = sorted_objects[0]
+
+    return most_recent_object['Key']
 
 

@@ -1,16 +1,18 @@
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
-import pandas as pd
 from moviepy.editor import VideoFileClip
 
 from data import DataProcessor
 from figure import FigureGenerator
 
+import s3
 
 # Initialize DataProcessor and FigureGenerator
 data_processor = DataProcessor()
-figure_generator = FigureGenerator('dev/Top_Lecture/', 'SON', 'dev/Other_Lecture/', 'BYUN')
+figure_generator = FigureGenerator('dev/Top_Lecture/', 'SON', 
+                                   'dev/Other_Lecture/', 'BYUN',
+                                   'dev/Other_Lecture/', s3.get_most_recent_file('dev/Other_Lecture/'))
 
 
 # Get the figures
@@ -38,7 +40,7 @@ app.layout = html.Div([
     dcc.Graph(id='nlp-feature-graph',
               style = {'display': 'inline-block', 
                        'width': '100%',
-                       'height': '800px',
+                       'height': '600px',
                     #    'fontsize' : 30
                        }
               ),
