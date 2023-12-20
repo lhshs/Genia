@@ -24,15 +24,15 @@ def extract(route, con_str, con_str2=None):
             file_key = obj['Key'] # Make Variable For Get Text
         
             txt_lst.append(file_key)
-    print('<<<<< Txt List >>>>>')
+    # print('<<<<< Txt List >>>>>')
     print(txt_lst)
-
+    
     response = s3.get_object(Bucket=bucket_name, Key=file_key)
     result = response['Body'].read().decode('utf-8')
     
     return result
 
-def get_most_recent_file(prefix):
+def get_most_recent_file(bucket_name, prefix):
     objects = s3.list_objects_v2(Bucket=bucket_name)['Contents']
 
     # Filter objects in the 'user/transcript/' path
