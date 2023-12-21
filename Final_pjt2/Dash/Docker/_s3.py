@@ -1,13 +1,21 @@
 import boto3
-import settings
+import os 
+# import settings
 
-settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID']
-settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY']
-settings.DB_SETTINGS['_s3']['BUCKET_NAME']
+# Local
+# settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID']
+# settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY']
+# settings.DB_SETTINGS['_s3']['BUCKET_NAME']
 
-s3 = boto3.client('s3', aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
-                  aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
-bucket_name = settings.DB_SETTINGS['_s3']['BUCKET_NAME']
+# s3 = boto3.client('s3', aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
+#                   aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
+# bucket_name = settings.DB_SETTINGS['_s3']['BUCKET_NAME']
+
+# 환경 변수
+bucket_name = 'team3-text'
+s3 = boto3.client('s3', 
+                  aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID"), 
+                  aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY"))
 
 def extract(route, con_str, con_str2=None):
     '''

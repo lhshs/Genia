@@ -5,40 +5,44 @@ from moviepy.editor import VideoFileClip
 import base64
 import io
 import time
+import os
 import boto3
 from datetime import datetime
 import speech_recognition as sr
+import pymysql
 
 from data import DataProcessor
 from figure import FigureGenerator
 
 import _s3
-import settings
+
 
 # Initialize & create global variables
 data_processor = DataProcessor()
 figures = {}
 
-# AWS S3 credentials
+# import settings
+# ACCESS KEY FOR LOCAL
+# s3 = boto3.client('s3', 
+#                 aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
+#                 aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
+# transcribe = boto3.client('transcribe', 
+#                         aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
+#                         aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
+# bucket_name = settings.DB_SETTINGS['_s3']['BUCKET_NAME']
+
+# ACCESS KEY FOR AWS, 환경변수 설정 
+bucket_name = 'team3-text'
 s3 = boto3.client('s3', 
-                aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
-                aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
-transcribe = boto3.client('transcribe', 
-                        aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
-                        aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
-bucket_name = settings.DB_SETTINGS['_s3']['BUCKET_NAME']
+                  aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID"), 
+                  aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY"))
+conn = pymysql.connect(
+    host = os.environ.get("USER_HOST"),
+    user = os.environ.get("USER_ID"),
+    password = os.environ.get("USER_PASSWORD"),
+    database = os.environ.get("USER_DB")
+)
 
-
-# figure_generator = FigureGenerator('dev/Top_Lecture/', 'SON', 
-#                                     'dev/Other_Lecture/', 'BYUN',
-#                                     'dev/Other_Lecture/', 'SEO',
-#                                     'user/transcript/', _s3.get_most_recent_file(bucket_name, 'user/transcript/'))
-# # Get the figures
-# word_freq = figure_generator.word_freq()
-# senti = figure_generator.sentence_senti()
-# ng = figure_generator.n_grams()
-# pos = figure_generator.pos()
-# sim = figure_generator.similar()
 
 app = dash.Dash()
 app.layout = html.Div([
@@ -165,5 +169,5 @@ def show_dropdown(upload_output):
 
 
 if __name__ == '__main__':
-    app.run_server(port=80, debug=True)
+    app.run_server(host='0.0.0.0', port=80, debug=True)
     
