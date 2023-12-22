@@ -4,13 +4,13 @@ import plotly.graph_objects as go
 import pandas as pd
 from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk.util import ngrams
-import nltk
-# nltk.download('vader_lexicon')
 from plotly.subplots import make_subplots
-from data import DataProcessor
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.spatial.distance import euclidean
+
+from data_s3 import DataProcessor
+
 
 class FigureGenerator:
     def __init__(self, top_route, top_name, 
@@ -278,5 +278,4 @@ class FigureGenerator:
         # Change the bar mode
         fig.update_layout(barmode='group', title_text='<b>Comparison With NCIC<b>')
         return fig
-    
     

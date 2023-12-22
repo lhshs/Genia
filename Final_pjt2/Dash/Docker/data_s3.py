@@ -1,6 +1,8 @@
-# import nltk    
-# import pandas as pd
+import nltk    
 from nltk.tokenize import word_tokenize
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('vader_lexicon')
 from collections import Counter
 
 import _s3
@@ -54,6 +56,7 @@ class DataProcessor:
         ''' 
         Preprocess Text Data
         ''' 
+
         stop_words = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에', '때',
                     '와','한','하다', '.', ',', '(', ')', '!', '?', '-', '‘', '’', '“', '”', '…', '텍스트는',
                     '그리고', '그래서', '설명합니다', '중요성을 강조합니다', '논의합니다', '합니다', '있습니다', '있는', '있으며',

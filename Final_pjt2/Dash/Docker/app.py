@@ -4,25 +4,23 @@ from dash.dependencies import Input, Output
 from moviepy.editor import VideoFileClip
 import base64
 import io
-import time
-import os
+import os 
 import boto3
 from datetime import datetime
 import speech_recognition as sr
-import pymysql
 
-from data import DataProcessor
-from figure import FigureGenerator
+from data_s3 import DataProcessor
+from figure_from_s3 import FigureGenerator
+import figure_from_rds
 
 import _s3
-
 
 # Initialize & create global variables
 data_processor = DataProcessor()
 figures = {}
 
+### ACCESS KEY FOR LOCAL ###
 # import settings
-# ACCESS KEY FOR LOCAL
 # s3 = boto3.client('s3', 
 #                 aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
 #                 aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
@@ -31,21 +29,17 @@ figures = {}
 #                         aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
 # bucket_name = settings.DB_SETTINGS['_s3']['BUCKET_NAME']
 
-# ACCESS KEY FOR AWS, 환경변수 설정 
-bucket_name = 'team3-text'
+### ACCESS KEY FOR AWS, 환경변수 설정 ### 
 s3 = boto3.client('s3', 
                   aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID"), 
                   aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY"))
-conn = pymysql.connect(
-    host = os.environ.get("USER_HOST"),
-    user = os.environ.get("USER_ID"),
-    password = os.environ.get("USER_PASSWORD"),
-    database = os.environ.get("USER_DB")
-)
+bucket_name = os.environ.get("BUCKET_NAME")
 
 
 app = dash.Dash()
 app.layout = html.Div([
+
+##### Title, First Web Scene #####    
     html.H1('Video Analysis', 
             style={'textAlign': 'center',}),
     html.Div(
@@ -63,42 +57,73 @@ app.layout = html.Div([
                 'borderRadius': '5px',
                 'textAlign': 'center',
                 'margin': '10px'
-            },    
-            multiple=False,
-        ),
-        style={'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}
-    ),
-    html.Div(id='output-upload'),    
+                },    
+                multiple=False,
+                ),
+                style={'display': 'flex', 
+                       'justifyContent': 'center', 
+                       'alignItems': 'center'}
+            ),
+    html.Div(id='output-upload', 
+             children=''), 
+
     html.Br(),
-    dcc.Dropdown(
-        id='nlp-feature-dropdown',
-        options=[
-            # NLP Feature 1
-            {'label': 'Word Frequency', 'value': 'word_freq'}, 
-            # NLP Feature 2
-            {'label': 'Sentence Sentimental Analysis', 'value': 'senti'}, 
-            # NLP Feature 3
-            {'label': 'Bigram', 'value': 'ng'}, 
-            # NLP Feature 4
-            {'label': 'Part of Speech Tagging', 'value': 'pos'}, 
-            # NLP Feature 5
-            {'label': 'Similarity', 'value': 'sim'}, 
-        ],
-        value='Select',
-        style={'display' : 'none'}
-    ),
-    dcc.Graph(id='nlp-feature-graph',
-              style = {'display': 'inline-block', 
-                       'width': '100%',
-                       'height': '600px',
-                       'display': 'none',
-                    #    'fontsize' : 30
-                       }
-              ),
+
+###### Nonverbal Feature ######
+    html.Div(
+        children=[
+            html.H2('Nonverbal Feature',
+                    style={'textAlign': 'center',
+                           'display': 'none'},
+                    id='nonverbal-feature-title'),
+    # Pie Emotion Chart
+            dcc.Graph(id='pie-emotion',
+                      style = {'display': 'none'}),
+            ]),
+
+    html.Br(),
+    html.Br(),
+
+###### Text Feature ######
+    html.Div(
+        children=[
+            html.H2('Text Feature', 
+                    style={'textAlign': 'center',
+                           'display': 'none'}, 
+                    id='nlp-feature-title'
+                    ),
+            dcc.Dropdown(
+                id='nlp-feature-dropdown',
+                options=[
+                    # NLP Feature 1
+                    {'label': 'Word Frequency', 'value': 'word_freq'}, 
+                    # NLP Feature 2
+                    {'label': 'Sentence Sentimental Analysis', 'value': 'senti'}, 
+                    # NLP Feature 3
+                    {'label': 'Bigram', 'value': 'ng'}, 
+                    # NLP Feature 4
+                    {'label': 'Part of Speech Tagging', 'value': 'pos'}, 
+                    # NLP Feature 5
+                    {'label': 'Similarity', 'value': 'sim'}, 
+                        ],
+                        value='Select',
+                        style={'display' : 'none'}
+                        ),
+    # NLP Feature Graph
+            dcc.Graph(id='nlp-feature-graph',
+                    style = {'width': '100%',
+                            'height': '600px',
+                            'display': 'none',
+                            }
+                    ),
+            ])
 ])
+
   
-@app.callback(Output('output-upload', 'children'),
-              Input('upload-video', 'contents'))
+@app.callback(
+        Output('output-upload', 'children'),
+        Input('upload-video', 'contents')
+        )
 def upload_video(contents):
     if contents is not None:
         content_type, content_string = contents.split(',')
@@ -128,9 +153,11 @@ def upload_video(contents):
 
 
 @app.callback(
-    [Output('nlp-feature-graph', 'figure'),
-     Output('nlp-feature-graph', 'style')],
-    Input('nlp-feature-dropdown', 'value')
+        [
+        Output('nlp-feature-graph', 'figure'),
+        Output('nlp-feature-graph', 'style')
+        ],
+        Input('nlp-feature-dropdown', 'value')
 )
 def nlp_graph(selected_feature):
     print(f"<---- The Selected_Feature : {selected_feature} ---->")  # Debug print
@@ -158,16 +185,37 @@ def nlp_graph(selected_feature):
         return word_freq, {'display': 'none'}
 
 @app.callback(
-    Output('nlp-feature-dropdown', 'style'),
-    Input('upload-video', 'contents')
+        [
+        Output('nlp-feature-dropdown', 'style'),
+        Output('nlp-feature-title', 'style')
+        ],
+        Input('upload-video', 'contents')
 )
 def show_dropdown(upload_output):
     if upload_output is not None:
-        return {'display': 'block'}  # Show the dropdown
+        return {'display': 'block'}, {'display': 'block'}  # Show the dropdown
     else:
-        return {'display': 'none'}  # Hide the dropdown
+        return {'display': 'none'}, {'display': 'none'}  # Hide the dropdown
+    
+
+@app.callback(
+        [
+        Output('pie-emotion', 'figure'),
+        Output('pie-emotion', 'style'),
+        Output('nonverbal-feature-title', 'style'),
+        ],
+        Input('upload-video', 'contents')
+)
+def nonverbal_graph(selected_value):
+    # fig = None
+    fig = figure_from_rds.pie_em()
+
+    if selected_value is not None:
+        return fig, {'display': 'block'}, {'display': 'block'}
+    else:
+        return fig, {'display': 'none'}, {'display': 'none'} # Hide the dropdown
 
 
 if __name__ == '__main__':
-    app.run_server(host='0.0.0.0', port=80, debug=True)
+    app.run_server(host='0.0.0.0', port=80, debug=True) # 
     
