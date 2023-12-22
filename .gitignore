@@ -8,6 +8,7 @@ AWS/
 Study/2309_NLP/x_train.pickle
 Study/2309_NLP/x_test.pickle
 Final_pjt2/Dash/settings.py
+__pycache__/
 
 # file
 firebase-tools-instant-win.exe
@@ -15,3 +16,4 @@ serviceAccountKey.json
 test.mp4
 ref_video.mp4
 settings.py
+
