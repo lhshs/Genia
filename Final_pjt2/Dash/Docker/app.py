@@ -76,8 +76,14 @@ app.layout = html.Div([
                     style={'textAlign': 'center',
                            'display': 'none'},
                     id='nonverbal-feature-title'),
+    # Face Detection 
+            dcc.Graph(id='face-detection',
+                      style = {'display': 'none'}),
     # Pie Emotion Chart
             dcc.Graph(id='pie-emotion',
+                      style = {'display': 'none'}),                          
+    # Pose Estimation
+            dcc.Graph(id='pose-estimation',
                       style = {'display': 'none'}),
             ]),
 
@@ -184,6 +190,7 @@ def nlp_graph(selected_feature):
     else:
         return word_freq, {'display': 'none'}
 
+### DropDown Menu ###
 @app.callback(
         [
         Output('nlp-feature-dropdown', 'style'),
@@ -197,25 +204,31 @@ def show_dropdown(upload_output):
     else:
         return {'display': 'none'}, {'display': 'none'}  # Hide the dropdown
     
-
+### See Graph After Upload Video ###
 @app.callback(
         [
+        Output('face-detection', 'figure'),
+        Output('face-detection', 'style'),
         Output('pie-emotion', 'figure'),
         Output('pie-emotion', 'style'),
+        # Output('pose-estimation', 'figure'),
+        # Output('pose-estimation', 'style'),                
         Output('nonverbal-feature-title', 'style'),
         ],
         Input('upload-video', 'contents')
 )
 def nonverbal_graph(selected_value):
     # fig = None
-    fig = figure_from_rds.pie_em()
+    face = figure_from_rds.face_esti('VIDEO_FEATURE_EM')     
+    pie = figure_from_rds.pie_em('VIDEO_FEATURE_EM', 'USER_EA')    
+    # pose = figure_from_rds.pie_em('VIDEO_FEATURE_EM', 'USER_EA')    
 
     if selected_value is not None:
-        return fig, {'display': 'block'}, {'display': 'block'}
+        return face, {'display': 'block'}, pie, {'display': 'block'}, {'display': 'block'} # pose, {'display': 'block'}, 
     else:
-        return fig, {'display': 'none'}, {'display': 'none'} # Hide the dropdown
+        return face, {'display': 'none'}, pie, {'display': 'none'}, {'display': 'none'} # pose, {'display': 'none'}, 
 
 
 if __name__ == '__main__':
-    app.run_server(port=80, debug=True) # host='0.0.0.0', 
+    app.run_server(host='0.0.0.0', port=80, debug=True) # 
     
