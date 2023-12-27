@@ -125,8 +125,7 @@ class FigureGenerator:
         fig.add_trace(go.Pie(labels=df_user_sent['sentiment'], 
                      values=df_user_sent['count'], 
                      hole=.3), row=1, col=4)
-        
-        # fig.update_layout(title_text="<b>Sentence Sentimental Analysis<b>")
+
         return fig
     
     def n_grams(self):
@@ -256,7 +255,7 @@ class FigureGenerator:
         return fig
     
     def similar(self):
-        ncic = self.data_processor.ncic('dev/NCIC/', 'NCIC')
+        ncic = self.data_processor.ncic('text/dev/NCIC/', 'NCIC')
         # Convert the texts into TF-IDF features
         vectorizer = TfidfVectorizer().fit_transform([ncic, self.top, self.other1, self.other2, self.user])
         vectors = vectorizer.toarray()

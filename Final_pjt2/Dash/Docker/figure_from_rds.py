@@ -1,9 +1,12 @@
 import os 
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
+import time
+import app
 
 
 host = os.environ.get("USER_HOST")
@@ -17,15 +20,35 @@ engine = create_engine(
 )
 
 
-def face_detection(standard_table, user_table):
+def face_esti(standard_table, user_table, current_file):
+    '''
+    standard_table : VIDEO_FEATURE_EM
+    user_table : USER_EA
+    '''
+    table_name = standard_table
+    query = f"SELECT * FROM {table_name};"
+    df = pd.read_sql(query, engine)
 
+    user_table_name = user_table
+    user_query = f"SELECT * FROM {user_table_name};"
+    df_user = pd.read_sql(user_query, engine)
+
+    mean1 = round(df[df['teacher']=='손석민'].mean(numeric_only=True)['proba'], 4)
+    mean2 = round(df[df['teacher']=='변창현'].mean(numeric_only=True)['proba'], 4)
+    mean3 = round(df[df['teacher']=='서채은'].mean(numeric_only=True)['proba'], 4)
+    mean4 = round(df_user[df_user['name']==current_file].mean(numeric_only=True)['proba'], 4)
+
+    data = {
+        'Category' : ['Top Rank Lecture', 'Other Lecture1', 'Other Lecture2', 'Your Video'],
+        'Percentage' : [mean1, mean2, mean3, mean4],
+        }
     
-    return fig
+    df = pd.DataFrame(data)
+    fig = px.bar(df, x='Category', y='Percentage', text='Percentage',
+                 title='Percentage Comparison', labels={'Percentage': 'Percentage (%)'},
+                 color='Category', height=500)
+    fig.update_layout(title_text="<b>Face Estimation<b>")
 
-
-def pose_estimation(standard_table, user_table):
-
-    
     return fig
 
 
@@ -71,40 +94,11 @@ def pie_em(standard_table, user_table):
     fig.add_trace(go.Pie(labels=cat, values=round(percentages3, 3), name='Other Rank2', hole=0.4,), row=1, col=3)
     fig.add_trace(go.Pie(labels=cat, values=round(user_percentage, 3), name='Your Video', hole=0.4,), row=1, col=4)
     
-    fig.update_layout(title_text="<b>Emotion Analysis<b>")
+    fig.update_layout(title_text="<b>Face Sentiment Analysis<b>")
 
     return fig
 
 
-def face_esti(standard_table): #, user_table):
-    '''
-    standard_table : VIDEO_FEATURE_EM
-    user_table : USER_EA
-    '''
-    table_name = standard_table
-    query = f"SELECT * FROM {table_name};"
-    df = pd.read_sql(query, engine)
-
-    # user_table_name = 'USER_EA'
-    # user_query = f"SELECT * FROM {user_table_name};"
-    # df_user = pd.read_sql(user_query, engine)
-
-    mean1 = round(df[df['teacher']=='손석민'].mean(numeric_only=True)['proba'], 4)
-    mean2 = round(df[df['teacher']=='변창현'].mean(numeric_only=True)['proba'], 4)
-    mean3 = round(df[df['teacher']=='서채은'].mean(numeric_only=True)['proba'], 4)
-    mean4 = 0
-
-    data = {
-        'Category' : ['Top Rank Lecture', 'Other Lecture1', 'Other Lecture2', 'Your Video'],
-        'Percentage' : [mean1, mean2, mean3, mean4],
-        }
-    
-    df = pd.DataFrame(data)
-    fig = px.bar(df, x='Category', y='Percentage', text='Percentage',
-                 title='Percentage Comparison', labels={'Percentage': 'Percentage (%)'},
-                 color='Category', height=500)
-    fig.update_layout(title_text="<b>Face Estimation<b>")
+def pose_estimation(standard_table, user_table):
 
     return fig
-
-

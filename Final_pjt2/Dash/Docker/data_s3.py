@@ -71,8 +71,8 @@ class DataProcessor:
         Calculate word frequency for Top and other1 data
         '''
         # Calculate word frequency
-        word_freq_Top = Counter(self.text_preprocess(self.Top_data('dev/Top_Lecture/', 'SON')))
-        word_freq_other1 = Counter(self.text_preprocess(self.other1_data('dev/Other1_Lecture/', 'BYUN')))
+        word_freq_Top = Counter(self.text_preprocess(self.Top_data('test/dev/Top_Lecture/', 'SON')))
+        word_freq_other1 = Counter(self.text_preprocess(self.other1_data('test/dev/Other1_Lecture/', 'BYUN')))
 
         # Convert to list
         word_freq_Top_list = [list(x) for x in word_freq_Top.items()]
