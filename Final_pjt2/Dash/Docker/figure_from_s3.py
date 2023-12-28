@@ -112,7 +112,7 @@ class FigureGenerator:
         fig = go.Figure()
         fig = make_subplots(rows=1, cols=4, 
                             specs=[[{'type':'domain'}, {'type':'domain'}, {'type':'domain'}, {'type':'domain'}]],
-                            subplot_titles=['<b>Top<b>', '<b>Other1<b>', '<b>Other2<b>', '<b>You<b>'])
+                            subplot_titles=['<b>Top<b>', '<b>Other1<b>', '<b>Other2<b>', '<b>Your Video<b>'])
         fig.add_trace(go.Pie(labels=df_top_sent['sentiment'], 
                      values=df_top_sent['count'], 
                      hole=.3,), row=1, col=1)
@@ -255,7 +255,7 @@ class FigureGenerator:
         return fig
     
     def similar(self):
-        ncic = self.data_processor.ncic('text/dev/NCIC/', 'NCIC')
+        ncic = self.data_processor.ncic('dev/NCIC/', 'NCIC')
         # Convert the texts into TF-IDF features
         vectorizer = TfidfVectorizer().fit_transform([ncic, self.top, self.other1, self.other2, self.user])
         vectors = vectorizer.toarray()

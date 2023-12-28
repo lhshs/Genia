@@ -5,13 +5,17 @@ from moviepy.editor import VideoFileClip
 import base64
 import io
 import os 
+import time
 import boto3
 from datetime import datetime
 import speech_recognition as sr
+import botocore
+import plotly.graph_objects as go
 
 from data_s3 import DataProcessor
 from figure_from_s3 import FigureGenerator
 import figure_from_rds
+import heatmap
 
 import _s3
 
@@ -20,22 +24,25 @@ data_processor = DataProcessor()
 figures = {}
 
 ### ACCESS KEY FOR LOCAL ###
-# import settings
+# import settings 
 # s3 = boto3.client('s3', 
 #                 aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
 #                 aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
-# transcribe = boto3.client('transcribe', 
-#                         aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
-#                         aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
-# bucket_name = settings.DB_SETTINGS['_s3']['BUCKET_NAME']
+# bucket_name_video = settings.DB_SETTINGS['_s3']['BUCKET_NAME_VIDEO']
+# bucket_name_text = settings.DB_SETTINGS['_s3']['BUCKET_NAME_TEXT']
 
 ### ACCESS KEY FOR AWS, 환경변수 설정 ### 
 s3 = boto3.client('s3', 
                   aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID"), 
                   aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY"))
-bucket_name = os.environ.get("BUCKET_NAME")
+bucket_name_video = os.environ.get("BUCKET_NAME_VIDEO")
+bucket_name_text = os.environ.get("BUCKET_NAME_TEXT")
 filename = ''
-
+teacher_lst = ['손석민', '서채은', '변창현']
+table_name = "VIDEO_FEATURE_LMP"
+book_name = "EBS중학뉴런수학2(상)"
+lecture_num = 1
+only_hand = False
 
 app = dash.Dash()
 app.layout = html.Div([
@@ -75,6 +82,40 @@ app.layout = html.Div([
             html.Div('< NonVerbal Feature >',
                      style={'display': 'none'},
                      id='nonverbal-feature-title'),
+            dcc.Graph(id='top_heatmap',
+                      style = {'display': 'none'},                      
+                      figure = heatmap.rds_heatmap_720(table_name, teacher_lst[0], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
+                          'text': "<b>Top Lecture<b>",
+                          'x': 0.5, 
+                          'xanchor': 'center'
+                          })
+                          ),
+            dcc.Graph(id='other_heatmap1',
+                      style = {'display': 'none'},                      
+                      figure = heatmap.rds_heatmap_720(table_name, teacher_lst[1], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
+                          'text': "<b>Other Lecture1<b>",
+                          'x': 0.5,  
+                          'xanchor': 'center'
+                          })
+                          ),
+            dcc.Graph(id='other_heatmap2',
+                      style = {'display': 'none'},
+                      figure = heatmap.rds_heatmap_720(table_name,  teacher_lst[2], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
+                          'text': "<b>Other Lecture2<b>",
+                          'x': 0.5, 
+                          'xanchor': 'center'
+                          })
+                          ),
+            dcc.Graph(id='user_heatmap',
+                      style = {'display': 'none'},
+                      figure = go.Figure().update_layout(
+                          title_text='<b>Your Video<b>',
+                          title_x=0.5,
+                          width=500,  
+                          height=500 
+                          ).update_xaxes(showticklabels=False)  
+                          .update_yaxes(showticklabels=False) 
+                          ),      
     # Face Detection 
             dcc.Graph(id='face-detection',
                       style = {'display': 'none'}),
@@ -158,10 +199,21 @@ def upload_video(contents):
         current_time = datetime.now().strftime("%Y%m%d%H%M%S")
         global filename
         filename = f'{current_time[:8]}_{current_time[8:]}_user_video.mp4'
-
-        s3.upload_fileobj(io.BytesIO(decoded), bucket_name, filename)
-        # Download the video from S3
-        s3.download_file(bucket_name, filename, 'for_transcript_video.mp4')
+        print(filename)
+        s3.upload_fileobj(io.BytesIO(decoded), bucket_name_video, filename)
+        print('📌')
+        success = False
+        while not success:
+            try:
+                s3.download_file(bucket_name_video, filename, 'for_transcript_video.mp4')
+                print('⭐')
+                success = True
+            except botocore.exceptions.ClientError as e:
+                if e.response['Error']['Code'] == "404":
+                    print("The object does not exist.")
+                    time.sleep(5)  # wait for 5 seconds before trying again
+                else:
+                    raise
         # Extract audio from video
         video = VideoFileClip('for_transcript_video.mp4')
         video.audio.write_audiofile('for_transcript_audio.wav')
@@ -175,7 +227,7 @@ def upload_video(contents):
         # Save the transcript to a .txt file and upload it to S3
         transcript_file = io.BytesIO(' '.join(text).encode())
         print(transcript_file.getvalue().decode('utf-8')) # 적재된 데이터 확인
-        s3.upload_fileobj(transcript_file, bucket_name, f'text/user/transcript/{current_time[:8]}_{current_time[8:]}_transcript.txt')
+        s3.upload_fileobj(transcript_file, bucket_name_text, f'user/transcript/{current_time[:8]}_{current_time[8:]}_transcript.txt')
     return {'textAlign': 'center'}
 
 
@@ -191,23 +243,29 @@ def return_current_filename():
         Output('face-detection', 'style'),
         Output('pie-emotion', 'figure'),
         Output('pie-emotion', 'style'),
+        Output('top_heatmap', 'style'),
+        Output('other_heatmap1', 'style'),
+        Output('other_heatmap2', 'style'),
+        Output('user_heatmap', 'style'),
         # Output('pose-estimation', 'figure'),
         # Output('pose-estimation', 'style'),                
         ],
         Input('upload-video', 'contents')
 )
 def nonverbal_graph(selected_value):
+    time.sleep(300)
     global filename
-    filename = filename[:-4]
     # print(f'------------{filename}')
-    face = figure_from_rds.face_esti('VIDEO_FEATURE_EM', 'USER_FM', filename)     
-    pie = figure_from_rds.pie_em('VIDEO_FEATURE_EM', 'USER_EA')    
+    face = figure_from_rds.face_esti('VIDEO_FEATURE_EM', 'USER_FM', filename[:-4])     
+    pie = figure_from_rds.pie_em('VIDEO_FEATURE_EM', 'USER_EA', filename[:-4])    
     # pose = figure_from_rds.pie_em('VIDEO_FEATURE_EM', 'USER_EA')    
 
     if selected_value is not None:
-        return face, {'display': 'block'}, pie, {'display': 'block'} # pose, {'display': 'block'}, 
+        return face, {'display': 'block'}, pie, {'display': 'block'}, \
+            {'display': 'block'}, {'display': 'block'}, {'display': 'block'}, {'display': 'block'} # pose, {'display': 'block'}, 
     else:
-        return face, {'display': 'none'}, pie, {'display': 'none'} # pose, {'display': 'none'}, 
+        return face, {'display': 'none'}, pie, {'display': 'none'}, \
+            {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, {'display': 'none'} # pose, {'display': 'block'}, 
 
 
 @app.callback(
@@ -219,10 +277,10 @@ def nonverbal_graph(selected_value):
 )
 def nlp_graph(selected_feature):
     print(f"<---- The Selected_Feature : {selected_feature} ---->")  # Debug print
-    figure_generator = FigureGenerator('text/dev/Top_Lecture/', 'SON', 
-                                        'text/dev/Other_Lecture/', 'BYUN',
-                                        'text/dev/Other_Lecture/', 'SEO',
-                                        'text/user/transcript/', _s3.get_most_recent_file(bucket_name, 'text/user/transcript/'))        
+    figure_generator = FigureGenerator('dev/Top_Lecture/', 'SON', 
+                                        'dev/Other_Lecture/', 'BYUN',
+                                        'dev/Other_Lecture/', 'SEO',
+                                        'user/transcript/', _s3.get_most_recent_file(bucket_name_text, 'user/transcript/'))        
     word_freq = figure_generator.word_freq()
     senti = figure_generator.sentence_senti()
     ng = figure_generator.n_grams()

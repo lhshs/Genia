@@ -5,8 +5,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
-import time
-import app
+
 
 
 host = os.environ.get("USER_HOST")
@@ -23,7 +22,7 @@ engine = create_engine(
 def face_esti(standard_table, user_table, current_file):
     '''
     standard_table : VIDEO_FEATURE_EM
-    user_table : USER_EA
+    user_table : USER_FM
     '''
     table_name = standard_table
     query = f"SELECT * FROM {table_name};"
@@ -52,7 +51,7 @@ def face_esti(standard_table, user_table, current_file):
     return fig
 
 
-def pie_em(standard_table, user_table):
+def pie_em(standard_table, user_table, current_file):
     '''
     standard_table : VIDEO_FEATURE_EM
     user_table : USER_EA
@@ -82,7 +81,7 @@ def pie_em(standard_table, user_table):
     user_table_name = user_table
     user_query = f"SELECT * FROM {user_table_name};"
     df_user = pd.read_sql(user_query, engine)
-    user_total_counts = df_user[df_user['name'] == 'test'].drop(columns=['id', 'name']).sum() # test의 이름을 영상 이름으로 대체 
+    user_total_counts = df_user[df_user['name'] == current_file].drop(columns=['id', 'name']).sum() # test의 이름을 영상 이름으로 대체 
     user_total = user_total_counts.sum()
     user_percentage = user_total_counts / user_total
 

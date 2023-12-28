@@ -2,20 +2,17 @@ import boto3
 import os 
 
 ### Local ###
-# import settings
-# settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID']
-# settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY']
-# settings.DB_SETTINGS['_s3']['BUCKET_NAME']
+# import Final_pjt2.Dash.settings as settings
 
 # s3 = boto3.client('s3', aws_access_key_id=settings.DB_SETTINGS['_s3']['ACCESS_KEY_ID'],
 #                   aws_secret_access_key=settings.DB_SETTINGS['_s3']['ACCESS_SECRET_KEY'])
-# bucket_name = settings.DB_SETTINGS['_s3']['BUCKET_NAME']
+# bucket_name_text = settings.DB_SETTINGS['_s3']['BUCKET_NAME_TEXT']
 
 ### ACCESS KEY FOR AWS, 환경 변수 ###
 s3 = boto3.client('s3', 
                   aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID"), 
                   aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY"))
-bucket_name = os.environ.get("BUCKET_NAME")
+bucket_name_text = os.environ.get("BUCKET_NAME_TEXT")
 
 def extract(route, con_str, con_str2=None):
     '''
@@ -24,7 +21,7 @@ def extract(route, con_str, con_str2=None):
     con_str2: str, text which you want to contain in file name
     '''
     # List all files
-    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=route)
+    response = s3.list_objects_v2(Bucket=bucket_name_text, Prefix=route)
 
     txt_lst = []
     for obj in response['Contents']:
@@ -35,7 +32,7 @@ def extract(route, con_str, con_str2=None):
     # print('<<<<< Txt List >>>>>')
     print(txt_lst)
     
-    response = s3.get_object(Bucket=bucket_name, Key=file_key)
+    response = s3.get_object(Bucket=bucket_name_text, Key=file_key)
     result = response['Body'].read().decode('utf-8')
     
     return result
