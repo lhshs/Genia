@@ -98,6 +98,6 @@ def pie_em(standard_table, user_table, current_file):
     return fig
 
 
-def pose_estimation(standard_table, user_table):
+# def pose_estimation(standard_table, user_table):
 
-    return fig
+#     return fig

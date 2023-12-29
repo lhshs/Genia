@@ -82,50 +82,52 @@ app.layout = html.Div([
             html.Div('< NonVerbal Feature >',
                      style={'display': 'none'},
                      id='nonverbal-feature-title'),
-            dcc.Graph(id='top_heatmap',
-                      style = {'display': 'none'},                      
-                      figure = heatmap.rds_heatmap_720(table_name, teacher_lst[0], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
-                          'text': "<b>Top Lecture<b>",
-                          'x': 0.5, 
-                          'xanchor': 'center'
-                          })
-                          ),
-            dcc.Graph(id='other_heatmap1',
-                      style = {'display': 'none'},                      
-                      figure = heatmap.rds_heatmap_720(table_name, teacher_lst[1], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
-                          'text': "<b>Other Lecture1<b>",
-                          'x': 0.5,  
-                          'xanchor': 'center'
-                          })
-                          ),
-            dcc.Graph(id='other_heatmap2',
-                      style = {'display': 'none'},
-                      figure = heatmap.rds_heatmap_720(table_name,  teacher_lst[2], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
-                          'text': "<b>Other Lecture2<b>",
-                          'x': 0.5, 
-                          'xanchor': 'center'
-                          })
-                          ),
-            dcc.Graph(id='user_heatmap',
-                      style = {'display': 'none'},
-                      figure = go.Figure().update_layout(
-                          title_text='<b>Your Video<b>',
-                          title_x=0.5,
-                          width=500,  
-                          height=500 
-                          ).update_xaxes(showticklabels=False)  
-                          .update_yaxes(showticklabels=False) 
-                          ),      
+            html.Div([
+                dcc.Graph(id='top_heatmap',
+                        style = {'display': 'none'},                      
+                        figure = heatmap.rds_heatmap_720(table_name, teacher_lst[0], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
+                            'text': "<b>Top Lecture<b>",
+                            'x': 0.5, 
+                            'xanchor': 'center'
+                        })
+                ),
+                dcc.Graph(id='other_heatmap1',
+                        style = {'display': 'none'},                      
+                        figure = heatmap.rds_heatmap_720(table_name, teacher_lst[1], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
+                            'text': "<b>Other Lecture1<b>",
+                            'x': 0.5,  
+                            'xanchor': 'center'
+                        })
+                ),
+                dcc.Graph(id='other_heatmap2',
+                        style = {'display': 'none'},
+                        figure = heatmap.rds_heatmap_720(table_name,  teacher_lst[2], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
+                            'text': "<b>Other Lecture2<b>",
+                            'x': 0.5, 
+                            'xanchor': 'center'
+                        })
+                ),
+                dcc.Graph(id='user_heatmap',
+                        style = {'display': 'none'},
+                        figure = go.Figure().update_layout(
+                            title_text='<b>Your Video<b>', 
+                            title_x=0.5, 
+                            width=640,  
+                            height=320
+                        ).update_xaxes(showticklabels=False)  
+                        .update_yaxes(showticklabels=False) 
+                ), 
+            ], style={'display': 'flex', 'flex-wrap': 'wrap'}),
     # Face Detection 
             dcc.Graph(id='face-detection',
                       style = {'display': 'none'}),
     # Pie Emotion Chart
             dcc.Graph(id='pie-emotion',
                       style = {'display': 'none'}),                          
-    # Pose Estimation
-            dcc.Graph(id='pose-estimation',
-                      style = {'display': 'none'}),
-            ]),
+    # # Pose Estimation
+    #         dcc.Graph(id='pose-estimation',
+    #                   style = {'display': 'none'}),
+    ]),
 
     html.Br(),
     html.Br(),
@@ -231,11 +233,6 @@ def upload_video(contents):
     return {'textAlign': 'center'}
 
 
-def return_current_filename():
-    global filename
-    return filename
-
-
 ### See Graph After Upload Video ###
 @app.callback(
         [
@@ -255,8 +252,9 @@ def return_current_filename():
 def nonverbal_graph(selected_value):
     time.sleep(300)
     global filename
-    # print(f'------------{filename}')
+    print(f'Recent File : <<< {filename} >>> To face')
     face = figure_from_rds.face_esti('VIDEO_FEATURE_EM', 'USER_FM', filename[:-4])     
+    print(f'Recent File : <<< {filename} >>> To pie')
     pie = figure_from_rds.pie_em('VIDEO_FEATURE_EM', 'USER_EA', filename[:-4])    
     # pose = figure_from_rds.pie_em('VIDEO_FEATURE_EM', 'USER_EA')    
 

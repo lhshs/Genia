@@ -112,9 +112,9 @@ def rds_heatmap_720(table_name : str, teacher : str, book_name : str, lecture_nu
         showscale=False 
     ))
     fig.update_layout(
-        autosize=False,
-        width=500,
-        height=500,
+        autosize=True,
+        width=640,
+        height=320,
         xaxis=dict(showticklabels=False),  # Hide x-axis labels
         yaxis=dict(showticklabels=False)   # Hide y-axis labels
     )
