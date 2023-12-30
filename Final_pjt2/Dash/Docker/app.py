@@ -44,6 +44,7 @@ book_name = "EBS중학뉴런수학2(상)"
 lecture_num = 1
 only_hand = False
 
+
 app = dash.Dash()
 app.layout = html.Div([
 
@@ -82,42 +83,43 @@ app.layout = html.Div([
             html.Div('< NonVerbal Feature >',
                      style={'display': 'none'},
                      id='nonverbal-feature-title'),
+            html.Br(),
+            html.Br(),
             html.Div([
+                html.Br(),
                 dcc.Graph(id='top_heatmap',
-                        style = {'display': 'none'},                      
+                        style = {'display': 'none', 'width': '50%'},                      
                         figure = heatmap.rds_heatmap_720(table_name, teacher_lst[0], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
                             'text': "<b>Top Lecture<b>",
                             'x': 0.5, 
-                            'xanchor': 'center'
                         })
                 ),
                 dcc.Graph(id='other_heatmap1',
-                        style = {'display': 'none'},                      
+                        style = {'display': 'none', 'width': '50%'},                      
                         figure = heatmap.rds_heatmap_720(table_name, teacher_lst[1], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
                             'text': "<b>Other Lecture1<b>",
                             'x': 0.5,  
-                            'xanchor': 'center'
                         })
                 ),
                 dcc.Graph(id='other_heatmap2',
-                        style = {'display': 'none'},
+                        style = {'display': 'none', 'width': '50%'},
                         figure = heatmap.rds_heatmap_720(table_name,  teacher_lst[2], book_name, lecture_num, only_hand, resolution=3).update_layout(title={
                             'text': "<b>Other Lecture2<b>",
                             'x': 0.5, 
-                            'xanchor': 'center'
                         })
                 ),
                 dcc.Graph(id='user_heatmap',
-                        style = {'display': 'none'},
+                        style = {'display': 'none', 'width': '50%'},
                         figure = go.Figure().update_layout(
                             title_text='<b>Your Video<b>', 
                             title_x=0.5, 
-                            width=640,  
-                            height=320
+                            width=400,  
+                            height=320 
                         ).update_xaxes(showticklabels=False)  
                         .update_yaxes(showticklabels=False) 
                 ), 
-            ], style={'display': 'flex', 'flex-wrap': 'wrap'}),
+            ], style={'display': 'flex', 'flex-wrap': 'wrap', 'justify-content': 'center'}
+            ),
     # Face Detection 
             dcc.Graph(id='face-detection',
                       style = {'display': 'none'}),
@@ -325,6 +327,7 @@ def show_dropdown(upload_output):
         Output('upload-video', 'style'),
         Output('subtitle', 'style'),        
         Output('nonverbal-feature-title', 'style'),
+
         ],
         Input('upload-video', 'contents')
 )
@@ -334,7 +337,8 @@ def after_input_display(selected_value):
                {'display': 'none'}, \
                {'display': 'block', 'textAlign': 'center', 
                 'fontFamily': 'Georgia', 'fontSize' : 30,
-                'fontStyle': 'bold', 'fontStyle': 'italic'} 
+                'fontStyle': 'bold', 'fontStyle': 'italic'}, 
+
     else:
         return {'width': '110%', 'height': '80px', 'lineHeight': '80px',
                 'borderWidth': '1px', 'borderStyle': 'dashed', 'borderRadius': '5px',
@@ -342,7 +346,7 @@ def after_input_display(selected_value):
                {'textAlign': 'center', 'justifyContent': 'center', 
                 'alignItems': 'center', 'fontSize': 15,
                 'fontFamily': 'Lucida Console', 'fontStyle': 'italic'}, \
-               {'display': 'none'} 
+               {'display': 'none'}, 
 
 
 @app.callback(
