@@ -2,4 +2,4 @@
 
 Record about Genia Academy Bigdata 4th
 
-2023.07.01 ~
+23.07.01 ~ 24.01.02
